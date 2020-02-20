@@ -1,6 +1,10 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
+import { DateTime } from "luxon";
+import "./Date.extensions";
 
 export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+
+	private container: HTMLDivElement;
 
 	/**
 	 * Empty constructor.
@@ -21,6 +25,7 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
 		// Add control initialization code
+		this.container = container;
 	}
 
 
@@ -30,7 +35,37 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		// Add code to update control view
+		var dateInput = context.parameters.dateInput.raw;
+		var timeZoneInput = context.parameters.timeZoneInput.raw;
+		if(dateInput !== null && timeZoneInput !== null) {
+			var fmt = this.getDotNetFormatString(context);
+			var options = this.getDotNetFormatOptions(context);
+			this.container.innerText = DateTime
+				.fromJSDate(dateInput, { zone: 'utc' })
+				.setZone(timeZoneInput, { keepLocalTime: true })
+				.toJSDate()
+				.toDotNetFormat(fmt, options);
+		}
+	}
+
+	private getDotNetFormatOptions(context: ComponentFramework.Context<IInputs>) : IDotNetFormatOptions {
+		return {
+			...context.userSettings.dateFormattingInfo
+		};
+	}
+
+	private getDotNetFormatString(context: ComponentFramework.Context<IInputs>): string
+	{
+		var type = context.parameters.dateInput.type;
+		switch(type)
+		{
+			case "DateAndTime.DateOnly":
+				return context.userSettings.dateFormattingInfo.longDatePattern;
+			case "DateAndTime.DateAndTime":
+				return context.userSettings.dateFormattingInfo.fullDateTimePattern;
+			default:
+				throw `Attribute type '${type}' is not supported.`;
+		}
 	}
 
 	/** 

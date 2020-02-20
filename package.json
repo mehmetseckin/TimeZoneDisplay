@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@types/node": "^10.12.18",
-    "@types/powerapps-component-framework": "^1.2.0"
+    "@types/powerapps-component-framework": "^1.2.0",
+    "luxon": "^1.22.0"
   },
   "devDependencies": {
+    "@types/luxon": "^1.21.0",
     "pcf-scripts": "^1",
     "pcf-start": "^1"
   }

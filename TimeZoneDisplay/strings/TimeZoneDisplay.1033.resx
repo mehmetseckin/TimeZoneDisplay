@@ -1,0 +1,14 @@
+<root>
+    <data name="DateInputDisplayName">
+        <value>Date</value>
+    </data>
+    <data name="DateInputDescription">
+        <value>The date value that will be used as an input.</value>
+    </data>
+    <data name="TimeZoneInputDisplayName">
+        <value>Time Zone</value>
+    </data>
+    <data name="TimeZoneInputDescription">
+        <value>The IANA identifier of the target time zone.</value>
+    </data>
+</root>

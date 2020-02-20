@@ -2,7 +2,12 @@
 <manifest>
   <control namespace="MehmetSeckin" constructor="TimeZoneDisplay" version="0.0.1" display-name-key="TimeZoneDisplay" description-key="TimeZoneDisplay description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="dateInput" display-name-key="DateInputDisplayName" description-key="DateInputDescription" of-type-group="dateonly-or-datetime" usage="input" required="true" />
+    <property name="timeZoneInput" display-name-key="TimeZoneInputDisplayName" description-key="TimeZoneInputDescription" of-type="SingleLine.Text" usage="input" required="true" />
+    <type-group name="dateonly-or-datetime">
+      <type>DateAndTime.DateOnly</type>
+      <type>DateAndTime.DateAndTime</type>
+    </type-group>
     <!-- 
       Property node's of-type attribute can be of-type-group attribute. 
       Example:
@@ -18,8 +23,8 @@
       <code path="index.ts" order="1"/>
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/TimeZoneDisplay.css" order="1" />
-      <resx path="strings/TimeZoneDisplay.1033.resx" version="1.0.0" />
       -->
+      <resx path="strings/TimeZoneDisplay.1033.resx" version="1.0.0" />
     </resources>
     <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
     <feature-usage>
