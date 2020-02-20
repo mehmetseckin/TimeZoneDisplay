@@ -1,6 +1,6 @@
-import { DateTime } from "luxon";
+import { DateTime, IANAZone } from "luxon";
 
-const availableTimeZones = [
+const ianaTimeZones = [
     'Europe/Andorra',
     'Asia/Dubai',
     'Asia/Kabul',
@@ -359,5 +359,9 @@ export class TimeZoneConverter {
             .toJSDate();
     }
     
-    public static availableTimeZones = availableTimeZones
+    public static isValidTimeZone(timeZone: string): boolean {
+        return IANAZone.isValidZone(timeZone) || timeZone === 'local';
+    }
+
+    public static availableTimeZones = ['local', ...ianaTimeZones]
 }

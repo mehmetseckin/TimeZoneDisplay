@@ -6,9 +6,9 @@
         <value>The date value that will be used as an input.</value>
     </data>
     <data name="DefaultTimeZoneInputDisplayName">
-        <value>Time Zone</value>
+        <value>Default Time Zone</value>
     </data>
     <data name="DefaultTimeZoneInputDescription">
-        <value>The IANA identifier of the target time zone.</value>
+        <value>The IANA identifier of the default time zone. This will be the time zone that is displayed when the control is loaded for the first time. Uses 'local' if not specified.</value>
     </data>
 </root>

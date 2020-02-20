@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { TimeZoneConverter } from "../../utils/TimeZoneConverter";
 import { Card, ICardSectionStyles, ICardTokens, ICardSectionTokens } from "@uifabric/react-cards";
-import { Icon, Text, ITextStyles, FontWeights, IIconStyles, Dropdown } from "office-ui-fabric-react";
+import { Icon, Text, ITextStyles, FontWeights, IIconStyles, Dropdown, IDropdownProps, IDropdownOption } from "office-ui-fabric-react";
 
 interface IDisplayProps {
     date: Date | null;
@@ -21,7 +21,9 @@ const iconStyles: IIconStyles = {
     root: {
         color: '#0078D4',
         fontSize: 24,
-        fontWeight: FontWeights.regular
+        fontWeight: FontWeights.regular,
+        marginRight: 8,
+        float: 'left'
     }
 };
 const iconCardSectionStyles: ICardSectionStyles = {
@@ -31,7 +33,7 @@ const iconCardSectionStyles: ICardSectionStyles = {
     }
 };
 
-const cardTokens: ICardTokens = { childrenMargin: 12 };
+const cardTokens: ICardTokens = { childrenMargin: 12, minWidth: 600 };
 const iconCardSectionTokens: ICardSectionTokens = { padding: '0px 12px 0px 0px' };
 
 export const Display = (props: IDisplayProps) => {
@@ -39,17 +41,16 @@ export const Display = (props: IDisplayProps) => {
 
     let [selectedTimeZone, setSelectedTimeZone] = useState(timeZone);
 
-    let result = (date !== null && timeZone !== null)
-        ? TimeZoneConverter.convert(date, timeZone).toDotNetFormat(format, options)
+    let result = (date !== null && selectedTimeZone !== null && TimeZoneConverter.isValidTimeZone(selectedTimeZone))
+        ? TimeZoneConverter.convert(date, selectedTimeZone).toDotNetFormat(format, options)
         : "N/A";
 
     return <Card horizontal tokens={cardTokens}>
         <Card.Section styles={iconCardSectionStyles} tokens={iconCardSectionTokens} horizontal>
             <Card.Item>
-                <Icon iconName="WorldClock" styles={iconStyles} />
-            </Card.Item>
-            <Card.Item>
                 <Dropdown
+                    onRenderPlaceHolder={_onRenderPlaceHolder}
+                    onRenderTitle={_onRenderTitle}
                     selectedKey={selectedTimeZone}
                     options={TimeZoneConverter.availableTimeZones.map(tz => { return { key: tz, text: tz } })}
                     onChange={(e, option) => {
@@ -57,6 +58,7 @@ export const Display = (props: IDisplayProps) => {
                             setSelectedTimeZone(option.key.toString())
                         }
                     }}
+                    styles={{dropdown: {minWidth: 200}}}
                 />
             </Card.Item>
         </Card.Section>
@@ -66,4 +68,19 @@ export const Display = (props: IDisplayProps) => {
             </Card.Item>
         </Card.Section>
     </Card>;
+}
+
+const _onRenderPlaceHolder = (props?: IDropdownProps): JSX.Element => {
+    return <div>
+        <Icon iconName="WorldClock" styles={iconStyles} />
+        <span>{props?.placeHolder}</span>
+    </div>
+}
+
+const _onRenderTitle = (options?: IDropdownOption[]): JSX.Element => {
+    const option = options && options[0];
+    return <div>
+        <Icon iconName="WorldClock" styles={iconStyles} />
+        <span>{option?.text}</span>
+    </div>
 }
