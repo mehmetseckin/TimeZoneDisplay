@@ -43,7 +43,7 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 		ReactDOM.render(
 			React.createElement(Display, {
 				date: this.getDateInput(context),
-				timeZone: this.getTimeZoneInput(context),
+				timeZone: this.getdefaultTimeZoneInput(context),
 				format: this.getDotNetFormatString(context),
 				options: this.getDotNetFormatOptions(context)
 			}),
@@ -51,9 +51,9 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 		);
 	}
 
-	private getTimeZoneInput(context: ComponentFramework.Context<IInputs>): string | null {
-		let timeZoneInput = context.parameters.timeZoneInput;
-		return !!timeZoneInput.security?.readable ? timeZoneInput.raw : 'local';
+	private getdefaultTimeZoneInput(context: ComponentFramework.Context<IInputs>): string | null {
+		let defaultTimeZoneInput = context.parameters.defaultTimeZoneInput;
+		return !!defaultTimeZoneInput.security?.readable ? defaultTimeZoneInput.raw : 'local';
 	}
 
 	private getDateInput(context: ComponentFramework.Context<IInputs>) : Date | null {

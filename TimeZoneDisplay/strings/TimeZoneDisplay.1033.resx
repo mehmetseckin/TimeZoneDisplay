@@ -5,10 +5,10 @@
     <data name="DateInputDescription">
         <value>The date value that will be used as an input.</value>
     </data>
-    <data name="TimeZoneInputDisplayName">
+    <data name="DefaultTimeZoneInputDisplayName">
         <value>Time Zone</value>
     </data>
-    <data name="TimeZoneInputDescription">
+    <data name="DefaultTimeZoneInputDescription">
         <value>The IANA identifier of the target time zone.</value>
     </data>
 </root>
