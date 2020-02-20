@@ -1,6 +1,11 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { DateTime } from "luxon";
 import "./Date.extensions";
+import { TimeZoneConverter } from "./utils/TimeZoneConverter";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Display } from "./components/Display";
+import { initializeIcons } from '@uifabric/icons';
+initializeIcons(); 
 
 export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -35,17 +40,25 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var dateInput = context.parameters.dateInput.raw;
-		var timeZoneInput = context.parameters.timeZoneInput.raw;
-		if(dateInput !== null && timeZoneInput !== null) {
-			var fmt = this.getDotNetFormatString(context);
-			var options = this.getDotNetFormatOptions(context);
-			this.container.innerText = DateTime
-				.fromJSDate(dateInput, { zone: 'utc' })
-				.setZone(timeZoneInput, { keepLocalTime: true })
-				.toJSDate()
-				.toDotNetFormat(fmt, options);
-		}
+		ReactDOM.render(
+			React.createElement(Display, {
+				date: this.getDateInput(context),
+				timeZone: this.getTimeZoneInput(context),
+				format: this.getDotNetFormatString(context),
+				options: this.getDotNetFormatOptions(context)
+			}),
+			this.container
+		);
+	}
+
+	private getTimeZoneInput(context: ComponentFramework.Context<IInputs>): string | null {
+		let timeZoneInput = context.parameters.timeZoneInput;
+		return !!timeZoneInput.security?.readable ? timeZoneInput.raw : 'local';
+	}
+
+	private getDateInput(context: ComponentFramework.Context<IInputs>) : Date | null {
+		let dateInput = context.parameters.dateInput;
+		return !!dateInput.security?.readable ? dateInput.raw : null;
 	}
 
 	private getDotNetFormatOptions(context: ComponentFramework.Context<IInputs>) : IDotNetFormatOptions {
