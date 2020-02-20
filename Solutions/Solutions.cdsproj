@@ -39,7 +39,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\users\mseckin\Workspaces\Personal\TimeZoneDisplay\TimeZoneDisplay.pcfproj" />
+    <ProjectReference Include="..\TimeZoneDisplay.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
