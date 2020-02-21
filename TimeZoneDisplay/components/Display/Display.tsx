@@ -97,7 +97,7 @@ export const Display = (props: IDisplayProps) => {
                         <Text>{results[0].formattedDate}</Text>
                     </div>
                 ) : (
-                    <div>
+                    <div style={{ textAlign: 'center'}}>
                         <Icon iconName="Balloons" styles={noneSelectedIconStyles} />
                         <br />
                         <Text styles={noneSelectedTextStyles}>No time zone selected. Select a time zone to see the date here.</Text>
