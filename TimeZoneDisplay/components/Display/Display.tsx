@@ -26,15 +26,15 @@ const iconStyles: IIconStyles = {
         float: 'left'
     }
 };
-const iconCardSectionStyles: ICardSectionStyles = {
+const dropdownCardSectionStyles: ICardSectionStyles = {
     root: {
         alignSelf: 'stretch',
-        borderRight: '1px solid #F3F2F1'
+        borderBottom: '1px solid #F3F2F1'
     }
 };
 
-const cardTokens: ICardTokens = { childrenMargin: 12, minWidth: 600 };
-const iconCardSectionTokens: ICardSectionTokens = { padding: '0px 12px 0px 0px' };
+const cardTokens: ICardTokens = { childrenMargin: 12 };
+const dropdownCardSectionTokens: ICardSectionTokens = { padding: '0px 0px 12px 0px' };
 
 export const Display = (props: IDisplayProps) => {
     let { date, timeZone, format, options } = props;
@@ -45,8 +45,8 @@ export const Display = (props: IDisplayProps) => {
         ? TimeZoneConverter.convert(date, selectedTimeZone).toDotNetFormat(format, options)
         : "N/A";
 
-    return <Card horizontal tokens={cardTokens}>
-        <Card.Section styles={iconCardSectionStyles} tokens={iconCardSectionTokens} horizontal>
+    return <Card tokens={cardTokens}>
+        <Card.Section styles={dropdownCardSectionStyles} tokens={dropdownCardSectionTokens}>
             <Card.Item>
                 <Dropdown
                     onRenderPlaceHolder={_onRenderPlaceHolder}
@@ -58,7 +58,6 @@ export const Display = (props: IDisplayProps) => {
                             setSelectedTimeZone(option.key.toString())
                         }
                     }}
-                    styles={{dropdown: {minWidth: 200}}}
                 />
             </Card.Item>
         </Card.Section>
