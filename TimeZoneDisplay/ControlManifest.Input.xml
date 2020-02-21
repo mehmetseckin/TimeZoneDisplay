@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="MehmetSeckin" constructor="TimeZoneDisplay" version="0.0.1" display-name-key="TimeZoneDisplay" description-key="TimeZoneDisplay description" control-type="standard">
+  <control namespace="MehmetSeckin" constructor="TimeZoneDisplay" version="0.0.2" display-name-key="ControlDisplayName" description-key="ControlDescription" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="dateInput" display-name-key="DateInputDisplayName" description-key="DateInputDescription" of-type-group="dateonly-or-datetime" usage="input" required="true" />
+    <property name="dateInput" display-name-key="DateInputDisplayName" description-key="DateInputDescription" of-type-group="DateOrDateTime" usage="input" required="true" />
     <property name="defaultTimeZoneInput" display-name-key="DefaultTimeZoneInputDisplayName" description-key="DefaultTimeZoneInputDescription" of-type="SingleLine.Text" usage="input" required="false" default-value="local" />
-    <type-group name="dateonly-or-datetime">
+    <type-group name="DateOrDateTime">
       <type>DateAndTime.DateOnly</type>
       <type>DateAndTime.DateAndTime</type>
     </type-group>
@@ -20,7 +20,7 @@
       <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
     -->
     <resources>
-      <code path="index.ts" order="1"/>
+      <code path="index.ts" order="1" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/TimeZoneDisplay.css" order="1" />
       -->

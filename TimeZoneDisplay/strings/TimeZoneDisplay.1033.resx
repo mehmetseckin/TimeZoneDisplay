@@ -129,4 +129,10 @@
   <data name="DefaultTimeZoneInputDisplayName" xml:space="preserve">
     <value>Default Time Zone</value>
   </data>
+  <data name="ControlDescription" xml:space="preserve">
+    <value>This contorl allows a date or date and time field to be displayed in a different timezone.</value>
+  </data>
+  <data name="ControlDisplayName" xml:space="preserve">
+    <value>Time Zone Display</value>
+  </data>
 </root>
