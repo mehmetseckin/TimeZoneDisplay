@@ -2,7 +2,8 @@ import * as React from "react";
 import { useState } from "react";
 import { TimeZoneConverter } from "../../utils/TimeZoneConverter";
 import { Card, ICardSectionStyles, ICardTokens, ICardSectionTokens } from "@uifabric/react-cards";
-import { Icon, Text, ITextStyles, FontWeights, IIconStyles, TagPicker, ITag, ISuggestionItemProps } from "office-ui-fabric-react";
+import { Icon, Text, FontWeights, IIconStyles, TagPicker, ITag, ISuggestionItemProps } from "office-ui-fabric-react";
+import { NotSelected } from "../NotSelected";
 
 interface IDisplayProps {
     date: Date | null;
@@ -24,21 +25,7 @@ const iconStyles: IIconStyles = {
         float: 'left'
     }
 };
-const noneSelectedIconStyles: IIconStyles = {
-    root: {
-        color: '#c3c3c3',
-        fontSize: 72,
-        fontWeight: FontWeights.regular,
-        padding: 12,
-    }
-};
-const noneSelectedTextStyles: IIconStyles = {
-    root: {
-        color: '#303030',
-        fontWeight: FontWeights.regular,
-        padding: 12,
-    }
-};
+
 const dropdownCardSectionStyles: ICardSectionStyles = {
     root: {
         alignSelf: 'stretch',
@@ -52,7 +39,7 @@ const cardTokens: ICardTokens = { childrenMargin: 12 };
 const dropdownCardSectionTokens: ICardSectionTokens = { padding: '0px 0px 12px 0px' };
 
 export const Display = (props: IDisplayProps) => {
-    let { date, timeZone, format, options, 
+    let { date, timeZone, format, options,
         timeZonePickerIconTitle, timeZonePickerPlaceholder,
         timeZonePickerSuggestionsHeaderText, timeZonePickerNoSuggestionsFoundText
     } = props;
@@ -61,10 +48,10 @@ export const Display = (props: IDisplayProps) => {
     let [selectedTimeZones, setSelectedTimeZones] = useState(initialState);
 
     let results = (date !== null && selectedTimeZones.length)
-        ? selectedTimeZones.map(tz => ({ 
+        ? selectedTimeZones.map(tz => ({
             key: tz.key,
-            timeZone: tz.key, 
-            formattedDate: TimeZoneConverter.convert(date as any, tz.key).toDotNetFormat(format, options) 
+            timeZone: tz.key,
+            formattedDate: TimeZoneConverter.convert(date as any, tz.key).toDotNetFormat(format, options)
         }))
         : [];
 
@@ -96,31 +83,23 @@ export const Display = (props: IDisplayProps) => {
                         <Icon iconName="Clock" styles={iconStyles} />
                         <Text>{results[0].formattedDate}</Text>
                     </div>
-                ) : (
-                    <div style={{ textAlign: 'center'}}>
-                        <Icon iconName="Balloons" styles={noneSelectedIconStyles} />
-                        <br />
-                        <Text styles={noneSelectedTextStyles}>No time zone selected. Select a time zone to see the date here.</Text>
-                    </div>
-                )}
+                ) : <NotSelected />}
             </Card.Item>
         </Card.Section>
     </Card>;
 }
 
-/* <Icon iconName="WorldClock" styles={iconStyles} /> */
-
 const _onRenderSuggestionsItem = (props: ITag, item: ISuggestionItemProps<ITag>) => {
-    return <div style={{padding: 12}}>
+    return <div style={{ padding: 12 }}>
         <Icon iconName="WorldClock" styles={iconStyles} />
         <span>{props.name}</span>
     </div>
 }
 
-  const _onFilterChanged = (filterText: string, tagList?: ITag[]): ITag[] => {
+const _onFilterChanged = (filterText: string, tagList?: ITag[]): ITag[] => {
     return filterText
-      ? timeZoneTags
-          .filter(tag => tag.name.toLowerCase().indexOf(filterText.toLowerCase()) !== -1)
-          .filter(tag => tagList?.filter(existingTag => existingTag === tag).length === 0)
-      : [];
-  };
+        ? timeZoneTags
+            .filter(tag => tag.name.toLowerCase().indexOf(filterText.toLowerCase()) !== -1)
+            .filter(tag => tagList?.filter(existingTag => existingTag === tag).length === 0)
+        : [];
+};
