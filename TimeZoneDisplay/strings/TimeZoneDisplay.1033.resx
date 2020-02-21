@@ -135,4 +135,16 @@
   <data name="ControlDisplayName" xml:space="preserve">
     <value>Time Zone Display</value>
   </data>
+  <data name="TimeZonePickerIconTitle" xml:space="preserve">
+    <value>Time Zone</value>
+  </data>
+  <data name="TimeZonePickerPlaceholder" xml:space="preserve">
+    <value>Start typing a time zone name...</value>
+  </data>
+  <data name="TimeZonePickerSuggestionsHeaderText" xml:space="preserve">
+    <value>Suggested Time Zones</value>
+  </data>
+  <data name="TimeZonePickerNoSuggestionsFoundText" xml:space="preserve">
+    <value>No time zones found.</value>
+  </data>
 </root>

@@ -45,7 +45,11 @@ export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInpu
 				date: this.getDateInput(context),
 				timeZone: this.getdefaultTimeZoneInput(context),
 				format: this.getDotNetFormatString(context),
-				options: this.getDotNetFormatOptions(context)
+				options: this.getDotNetFormatOptions(context),
+				timeZonePickerIconTitle: context.resources.getString("TimeZonePickerIconTitle"),
+				timeZonePickerPlaceholder: context.resources.getString("TimeZonePickerPlaceholder"),
+				timeZonePickerSuggestionsHeaderText: context.resources.getString("TimeZonePickerSuggestionsHeaderText"),
+				timeZonePickerNoSuggestionsFoundText: context.resources.getString("TimeZonePickerNoSuggestionsFoundText")
 			}),
 			this.container
 		);
