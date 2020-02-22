@@ -9,7 +9,8 @@ A PCF control that displays a date or date and time field in a different timezon
 - [x] Respect user personalization settings
 - [x] Respect field security profiles
 - [x] i18n using resource files
-- [ ] Tidy-up code to reduce output size (perf opt)
+- [ ] Tidy-up code and add unit tests
+- [ ] Set up a CI build
 
 ## Contributing
 
