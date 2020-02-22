@@ -10,7 +10,7 @@ stages:
 
   variables:
     artifactName: 'Solutions'
-    artifactPath: 'bin\${{ parameters.configuration }}\*.zip'
+    artifactPath: 'bin\${{ parameters.configuration }}\Solutions.zip'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
