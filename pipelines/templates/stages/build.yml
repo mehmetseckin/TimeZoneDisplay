@@ -10,7 +10,10 @@ stages:
 
   variables:
     artifactName: 'Solutions'
-    artifactPath: 'bin\${{ parameters.configuration }}\Solutions.zip'
+    projectDir: 'src\Solutions'
+    projectFileName: 'Solutions.cdsproj'
+    projectPath: '$(projectDir)\$(projectFileName)'
+    artifactPath: '$(projectDir)\bin\${{ parameters.configuration }}'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
@@ -28,7 +31,7 @@ stages:
     - task: VSBuild@1
       displayName: "Build"
       inputs:
-        solution: 'src\Solutions\Solutions.cdsproj'
+        solution: '$(projectPath)'
         msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }} /restore'
     - powershell: |
         echo "Tagging Build: $($env:BUILD_NUMBER)"
