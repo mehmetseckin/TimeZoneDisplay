@@ -1,23 +1,15 @@
-name: 1.2.0.$(build.buildId)
+variables:
+  version: '1.2.0'
+
+name: $(version)$(rev:.r)
 
 trigger:
 - master
 
-pool:
-  vmImage: 'windows-latest'
+pr:
+- master
 
 stages:
-- stage: "build_stage"
-  jobs:
-  - job: "build_job"
-    steps:
-    - task: Npm@1
-      displayName: "Run 'npm install'"
-      inputs:
-        command: 'install'
-        workingDir: 'src\'
-    - task: VSBuild@1
-      displayName: "Build"
-      inputs:
-        solution: 'src\Solutions\Solutions.cdsproj'
-        msbuildArgs: '/t:build /restore'
+- template: templates/stages/build.yml
+  parameters:
+    name: 'ci_build'

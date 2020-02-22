@@ -1,0 +1,33 @@
+parameters:
+  name: 'build'
+  configuration: 'Debug' # 'Debug' or 'Release'
+  publish: false # true if artifacts need to be published
+  dependsOn: []
+
+stages:
+- stage: '${{ parameters.name }}'
+
+  variables:
+    artifactName: 'Solutions'
+    artifactPath: 'src\Solutions\bin\${{ parameters.configuration }}\*.zip'
+
+  dependsOn: ${{ parameters.dependsOn }}
+  jobs:
+  - job: '${{ parameters.name }}_job'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: Npm@1
+      displayName: "Run 'npm install'"
+      inputs:
+        command: 'install'
+        workingDir: 'src\'
+    - task: VSBuild@1
+      displayName: "Build"
+      inputs:
+        solution: 'src\Solutions\Solutions.cdsproj'
+        msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }} /restore'
+    - publish: '$(artifactPath)'
+      displayName: 'Publishing $(artifactName)'
+      artifact: '$(artifactName)'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))
