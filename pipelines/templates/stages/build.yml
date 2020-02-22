@@ -1,6 +1,7 @@
 parameters:
   name: 'build'
   configuration: 'Debug' # 'Debug' or 'Release'
+  tag: false # true if the source needs to be tagged
   publish: false # true if artifacts need to be published
   dependsOn: []
 
@@ -27,6 +28,14 @@ stages:
       inputs:
         solution: 'src\Solutions\Solutions.cdsproj'
         msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }} /restore'
+    - powershell: |
+        echo "Tagging Build: $(BUILD_NUMBER)"
+        git tag $(BUILD_NUMBER)
+        git push origin $(BUILD_NUMBER)
+      displayName: 'Tag the build'
+      env:
+        BUILD_NUMBER: $(build.buildNumber)
+      condition: and(succeeded(), eq(${{ parameters.tag }}, true))
     - publish: '$(artifactPath)'
       displayName: 'Publishing $(artifactName)'
       artifact: '$(artifactName)'
