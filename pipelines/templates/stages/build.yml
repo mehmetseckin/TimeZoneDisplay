@@ -10,7 +10,6 @@ stages:
 
   variables:
     artifactName: 'Solutions'
-    artifactPath: 'bin\${{ parameters.configuration }}\*.zip'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
@@ -29,7 +28,7 @@ stages:
       displayName: "Build"
       inputs:
         solution: 'src\Solutions\Solutions.cdsproj'
-        msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }} /restore'
+        msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }};OutDir=$(build.stagingDirectory) /restore'
     - powershell: |
         echo "Tagging Build: $($env:BUILD_NUMBER)"
         git tag $env:BUILD_NUMBER
@@ -37,9 +36,9 @@ stages:
       displayName: 'Tag the build'
       env:
         BUILD_NUMBER: $(build.buildNumber)
-        GIT_REDIRECT_STDERR: 2>&1
+        GIT_REDIRECT_STDERR: 2>&1 # because git writes some output to STDERR and the agent things the script job failed
       condition: and(succeeded(), eq(${{ parameters.tag }}, true))
-    - publish: '$(artifactPath)'
+    - publish: '$(build.stagingDirectory)\*.zip'
       displayName: 'Publishing $(artifactName)'
       artifact: '$(artifactName)'
       condition: and(succeeded(), eq(${{ parameters.publish }}, true))
