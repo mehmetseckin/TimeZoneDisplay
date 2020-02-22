@@ -18,23 +18,27 @@ stages:
     artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
   dependsOn: ['cd_build']
   jobs:
-  - job: 'release_job'
-    steps:
-    - script: mkdir $(artifactsDirectory)
-      displayName: 'Create $(artifactsDirectory) directory'
-    - task: DownloadPipelineArtifact@2
-      displayName: 'Download all artifacts'
-      inputs:
-        targetPath: '$(artifactsDirectory)'
-    - task: GitHubRelease@1
-      inputs:
-        gitHubConnection: 'azure-pipelines-github-release'
-        repositoryName: '$(Build.Repository.Name)'
-        action: 'create'
-        target: '$(Build.SourceVersion)'
-        tagSource: 'gitTag'
-        assets: $(artifactsDirectory)/Solutions/*.zip
-        changeLogCompareToRelease: 'lastFullRelease'
-        changeLogType: 'commitBased'
-        isPreRelease: false
+  - deployment: 'release_job'
+    environment: GitHub
+    strategy:
+          runOnce:
+            deploy:
+              steps:
+              - script: mkdir $(artifactsDirectory)
+                displayName: 'Create $(artifactsDirectory) directory'
+              - task: DownloadPipelineArtifact@2
+                displayName: 'Download all artifacts'
+                inputs:
+                  targetPath: '$(artifactsDirectory)'
+              - task: GitHubRelease@1
+                inputs:
+                  gitHubConnection: 'azure-pipelines-github-release'
+                  repositoryName: '$(Build.Repository.Name)'
+                  action: 'create'
+                  target: '$(Build.SourceVersion)'
+                  tagSource: 'gitTag'
+                  assets: $(artifactsDirectory)/Solutions/*.zip
+                  changeLogCompareToRelease: 'lastFullRelease'
+                  changeLogType: 'commitBased'
+                  isPreRelease: false
 
