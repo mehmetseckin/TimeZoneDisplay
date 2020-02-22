@@ -1,4 +1,5 @@
 # TimeZoneDisplay
+
 A PCF control that displays a date or date and time field in a different timezone.
 
 # To-Do
@@ -13,3 +14,10 @@ A PCF control that displays a date or date and time field in a different timezon
 # Contributing
 
 Any feedback and PRs are welcome.
+
+## Screenshots
+
+![Bind a default timezone](./Screenshots/default_view.png)
+![No time zone selected](./Screenshots/no_tz_selected.png)
+![Time zone autocomplete](./Screenshots/tz_autocomplete.png)
+![Convert to another timezone](./Screenshots/convert_another.png)
