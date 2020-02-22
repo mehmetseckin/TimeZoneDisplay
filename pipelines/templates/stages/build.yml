@@ -29,9 +29,9 @@ stages:
         solution: 'src\Solutions\Solutions.cdsproj'
         msbuildArgs: '/t:build /p:configuration=${{ parameters.configuration }} /restore'
     - powershell: |
-        echo "Tagging Build: $(BUILD_NUMBER)"
-        git tag $(BUILD_NUMBER)
-        git push origin $(BUILD_NUMBER)
+        echo "Tagging Build: $($env:BUILD_NUMBER)"
+        git tag $env:BUILD_NUMBER
+        git push origin $env:BUILD_NUMBER
       displayName: 'Tag the build'
       env:
         BUILD_NUMBER: $(build.buildNumber)
