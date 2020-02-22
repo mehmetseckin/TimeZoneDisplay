@@ -1,7 +1,7 @@
 variables:
   version: '1.2.0'
 
-name: $(version)$(build.buildId)
+name: $(version).$(build.buildId)
 
 trigger:
 - master
