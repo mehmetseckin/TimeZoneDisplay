@@ -1,5 +1,7 @@
 # TimeZoneDisplay
 
+[![CI Build Status](https://dev.azure.com/mtseckin/TimeZoneDisplay/_apis/build/status/CI?branchName=master)](https://dev.azure.com/mtseckin/TimeZoneDisplay/_build/latest?definitionId=6&branchName=master)
+
 A PCF control that displays a date or date and time field in a different timezone.
 
 ## To-Do
@@ -9,8 +11,8 @@ A PCF control that displays a date or date and time field in a different timezon
 - [x] Respect user personalization settings
 - [x] Respect field security profiles
 - [x] i18n using resource files
+- [x] Set up a CI build
 - [ ] Tidy-up code and add unit tests
-- [ ] Set up a CI build
 
 ## Contributing
 
