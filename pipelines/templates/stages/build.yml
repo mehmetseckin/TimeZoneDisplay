@@ -37,6 +37,7 @@ stages:
       displayName: 'Tag the build'
       env:
         BUILD_NUMBER: $(build.buildNumber)
+        GIT_REDIRECT_STDERR: 2>&1
       condition: and(succeeded(), eq(${{ parameters.tag }}, true))
     - publish: '$(artifactPath)'
       displayName: 'Publishing $(artifactName)'
