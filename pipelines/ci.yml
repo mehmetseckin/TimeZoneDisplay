@@ -15,8 +15,9 @@ stages:
       displayName: "Run 'npm install'"
       inputs:
         command: 'install'
+        workingDir: 'src\'
     - task: VSBuild@1
       displayName: "Build"
       inputs:
-        solution: 'Solutions\Solutions.cdsproj'
+        solution: 'src\Solutions\Solutions.cdsproj'
         msbuildArgs: '/t:build /restore'

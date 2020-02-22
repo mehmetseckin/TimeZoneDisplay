@@ -20,7 +20,7 @@ Any feedback and PRs are welcome.
 
 ## Screenshots
 
-![Bind a default timezone](./Screenshots/default_view.png)
-![No time zone selected](./Screenshots/no_tz_selected.png)
-![Time zone autocomplete](./Screenshots/tz_autocomplete.png)
-![Convert to another timezone](./Screenshots/convert_another.png)
+![Bind a default timezone](./assets/screenshots/default_view.png)
+![No time zone selected](./assets/screenshots/no_tz_selected.png)
+![Time zone autocomplete](./assets/screenshots/tz_autocomplete.png)
+![Convert to another timezone](./assets/screenshots/convert_another.png)
