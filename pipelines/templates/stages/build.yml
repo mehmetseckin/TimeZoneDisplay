@@ -14,6 +14,7 @@ stages:
     projectFileName: 'Solutions.cdsproj'
     projectPath: '$(projectDir)\$(projectFileName)'
     artifactPath: '$(projectDir)\bin\${{ parameters.configuration }}'
+    solutionXmlPath: '$(projectDir)\Other\Solution.xml'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
@@ -28,6 +29,15 @@ stages:
       inputs:
         command: 'install'
         workingDir: 'src\'
+    - powershell: |
+        echo "Updating solution version: $($env:BUILD_NUMBER)"
+        $solution = [xml](gc "$($env:SOLUTION_XML_PATH)")
+        $solution.ImportExportXml.SolutionManifest.Version = "$($env:BUILD_NUMBER)";
+        $solution.Save("$($env:SOLUTION_XML_PATH)")
+      displayName: 'Update solution version'
+      env:
+        BUILD_NUMBER: $(build.buildNumber)
+        SOLUTION_XML_PATH: $(solutionXmlPath)
     - task: VSBuild@1
       displayName: "Build"
       inputs:
