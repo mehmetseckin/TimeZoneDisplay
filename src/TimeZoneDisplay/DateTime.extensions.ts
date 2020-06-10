@@ -1,16 +1,21 @@
-interface IDotNetFormatOptions {
-    abbreviatedDayNames: string[];
-    abbreviatedMonthNames: string[];
-    dayNames: string[];
-    monthNames: string[];
-    amDesignator: string;
-    pmDesignator: string;
-    timeSeparator: string;
+// Register extension to luxon
+declare module 'luxon' {
+    interface DateTime {
+        toDotNetFormat(fmt: string, options?: IDotNetFormatOptions): string;
+    }
+    
+    interface IDotNetFormatOptions {
+        abbreviatedDayNames: string[];
+        abbreviatedMonthNames: string[];
+        dayNames: string[];
+        monthNames: string[];
+        amDesignator: string;
+        pmDesignator: string;
+        timeSeparator: string;
+    }
 }
 
-interface Date {
-    toDotNetFormat(fmt: string, options?: IDotNetFormatOptions): string;
-}
+import { DateTime, IDotNetFormatOptions } from "luxon";
 
 var defaults: IDotNetFormatOptions = {
     abbreviatedDayNames: [ 
@@ -34,7 +39,7 @@ var defaults: IDotNetFormatOptions = {
     timeSeparator: ":"
 }
 
-Date.prototype.toDotNetFormat = function (fmt: string, options: IDotNetFormatOptions): string {
+DateTime.prototype.toDotNetFormat = function (fmt: string, options: IDotNetFormatOptions): string {
 
     options = Object.assign({}, defaults, options);
 
@@ -58,95 +63,95 @@ Date.prototype.toDotNetFormat = function (fmt: string, options: IDotNetFormatOpt
     var wordReplacer: any = {
         //The day of the month, from 1 through 31. (eg. 5/1/2014 1:45:30 PM, Output: 1)
         d : function() {
-            return _date.getDate();
+            return _date.day;
         },
         //The day of the month, from 01 through 31. (eg. 5/1/2014 1:45:30 PM, Output: 01)
         dd : function() {
-            return _padZeroLeft(_date.getDate(),2);
+            return _padZeroLeft(_date.day,2);
         },
         //The abbreviated name of the day of the week. (eg. 5/15/2014 1:45:30 PM, Output: Mon)
         ddd : function() {
-            return options.abbreviatedDayNames[_date.getDay()];
+            return options.abbreviatedDayNames[_date.weekday];
         },
         //The full name of the day of the week. (eg. 5/15/2014 1:45:30 PM, Output: Monday)
         dddd : function() {
-            return options.dayNames[_date.getDay()];
+            return options.dayNames[_date.weekday];
         },
         //The tenths of a second in a date and time value. (eg. 5/15/2014 13:45:30.617, Output: 6)
         f : function() {
-            return parseInt("" + (_date.getMilliseconds() / 100)) ;
+            return parseInt("" + (_date.millisecond / 100)) ;
         },
         //The hundredths of a second in a date and time value.  
         //(e.g., 5/15/2014 13:45:30.617, Output: 61)
         ff : function() {
-            return parseInt("" + (_date.getMilliseconds() / 10)) ;
+            return parseInt("" + (_date.millisecond / 10)) ;
         },
         //The milliseconds in a date and time value. (eg. 5/15/2014 13:45:30.617, Output: 617)
         fff : function() {
-            return _date.getMilliseconds() ;
+            return _date.millisecond ;
         },
         //If non-zero, The tenths of a second in a date and time value. 
         //(eg. 5/15/2014 13:45:30.617, Output: 6)
         F : function() {
-            return (_date.getMilliseconds() / 100 > 0) ? parseInt("" + (_date.getMilliseconds() / 100)) : '' ;
+            return (_date.millisecond / 100 > 0) ? parseInt("" + (_date.millisecond / 100)) : '' ;
         },
         //If non-zero, The hundredths of a second in a date and time value.  
         //(e.g., 5/15/2014 13:45:30.617, Output: 61)
         FF : function() {
-            return (_date.getMilliseconds() / 10 > 0) ? parseInt("" + (_date.getMilliseconds() / 10)) : '' ;
+            return (_date.millisecond / 10 > 0) ? parseInt("" + (_date.millisecond / 10)) : '' ;
         },
         //If non-zero, The milliseconds in a date and time value. 
         //(eg. 5/15/2014 13:45:30.617, Output: 617)
         FFF : function() {
-            return (_date.getMilliseconds() > 0) ? _date.getMilliseconds() : '' ;
+            return (_date.millisecond > 0) ? _date.millisecond : '' ;
         },
         //The hour, using a 12-hour clock from 1 to 12. (eg. 5/15/2014 1:45:30 AM, Output: 1)
         h : function() {
-            return _date.getHours() % 12 || 12;
+            return _date.hour % 12 || 12;
         },
         //The hour, using a 12-hour clock from 01 to 12. (eg. 5/15/2014 1:45:30 AM, Output: 01)
         hh : function() {
-            return _padZeroLeft(_date.getHours() % 12 || 12, 2);
+            return _padZeroLeft(_date.hour % 12 || 12, 2);
         },
         //The hour, using a 24-hour clock from 0 to 23. (eg. 5/15/2014 1:45:30 AM, Output: 1)
         H : function() {
-            return _date.getHours();
+            return _date.hour;
         },
         //The hour, using a 24-hour clock from 00 to 23. (eg. 5/15/2014 1:45:30 AM, Output: 01)
         HH : function() {
-            return _padZeroLeft(_date.getHours(),2);
+            return _padZeroLeft(_date.hour,2);
         },
         //The minute, from 0 through 59. (eg. 5/15/2014 1:09:30 AM, Output: 9
         m : function() {
-             return _date.getMinutes();
+             return _date.minute;
         },
         //The minute, from 00 through 59. (eg. 5/15/2014 1:09:30 AM, Output: 09
         mm : function() {
-            return _padZeroLeft(_date.getMinutes(),2);
+            return _padZeroLeft(_date.minute,2);
         },
         //The month, from 1 through 12. (eg. 5/15/2014 1:45:30 PM, Output: 6
         M : function() {
-            return _date.getMonth() + 1;
+            return _date.month;
         },
         //The month, from 01 through 12. (eg. 5/15/2014 1:45:30 PM, Output: 06
         MM : function() {
-            return _padZeroLeft(_date.getMonth() + 1,2);
+            return _padZeroLeft(_date.month,2);
         },
         //The abbreviated name of the month. (eg. 5/15/2014 1:45:30 PM, Output: Jun
         MMM : function() {
-            return options?.abbreviatedMonthNames[_date.getMonth()];
+            return options?.abbreviatedMonthNames[_date.month - 1];
         },
         //The full name of the month. (eg. 5/15/2014 1:45:30 PM, Output: June)
         MMMM : function() {
-            return options?.monthNames[_date.getMonth()];
+            return options?.monthNames[_date.month - 1];
         },
         //The second, from 0 through 59. (eg. 5/15/2014 1:45:09 PM, Output: 9)
         s : function() {
-            return _date.getSeconds();
+            return _date.second;
         },
         //The second, from 00 through 59. (eg. 5/15/2014 1:45:09 PM, Output: 09)
         ss : function() {
-            return _padZeroLeft(_date.getSeconds(),2);
+            return _padZeroLeft(_date.second,2);
         },
         //The first character of the AM/PM designator. (eg. 5/15/2014 1:45:30 PM, Output: P)
         t : function() {
@@ -154,44 +159,44 @@ Date.prototype.toDotNetFormat = function (fmt: string, options: IDotNetFormatOpt
         },
         //The AM/PM designator. (eg. 5/15/2014 1:45:30 PM, Output: PM)
         tt : function() {
-            return _date.getHours() >= 12 ? options.pmDesignator : options.amDesignator;
+            return _date.hour >= 12 ? options.pmDesignator : options.amDesignator;
         },
         //The year, from 0 to 99. (eg. 5/15/2014 1:45:30 PM, Output: 9)
         y : function() {
-            return Number(_date.getFullYear().toString().substr(2,2));
+            return Number(_date.year.toString().substr(2,2));
         },
         //The year, from 00 to 99. (eg. 5/15/2014 1:45:30 PM, Output: 09)
         yy : function() {
-            return _padZeroLeft(_date.getFullYear().toString().substr(2,2),2);
+            return _padZeroLeft(_date.year.toString().substr(2,2),2);
         },
         //The year, with a minimum of three digits. (eg. 5/15/2014 1:45:30 PM, Output: 2009)
         yyy : function() {
-            var _y = Number(_date.getFullYear().toString().substr(1,2));
-            return _y > 100 ? _y : _date.getFullYear();
+            var _y = Number(_date.year.toString().substr(1,2));
+            return _y > 100 ? _y : _date.year;
         },
         //The year as a four-digit number. (eg. 5/15/2014 1:45:30 PM, Output: 2009)
         yyyy : function() {
-            return _date.getFullYear();
+            return _date.year;
         },
         //The year as a five-digit number. (eg. 5/15/2014 1:45:30 PM, Output: 02009)
         yyyyy : function() {
-            return _padZeroLeft(_date.getFullYear(),5);
+            return _padZeroLeft(_date.year,5);
         },
         //Hours offset from UTC, with no leading zeros. (eg. 5/15/2014 1:45:30 PM -07:00, Output: -7)
         z : function() {
-            return parseInt("" + (_date.getTimezoneOffset() / 60)); //hourse
+            return parseInt("" + (_date.offset / 60)); //hourse
         },
         //Hours offset from UTC, with a leading zero for a single-digit value. 
         //(e.g., 5/15/2014 1:45:30 PM -07:00, Output: -07)
         zz : function() {
-            var _h: any =  parseInt("" + (_date.getTimezoneOffset() / 60)); //hourse
+            var _h: any =  parseInt("" + (_date.offset / 60)); //hourse
             if(_h < 0) _h =  '-' + _padZeroLeft(Math.abs(_h),2);
             return _h;
         },
         //Hours and minutes offset from UTC. (eg. 5/15/2014 1:45:30 PM -07:00, Output: -07:00)
         zzz : function() {
-            var _h =  parseInt("" + (_date.getTimezoneOffset() / 60)); //hourse
-            var _m = _date.getTimezoneOffset() - (60 * _h);
+            var _h =  parseInt("" + (_date.offset / 60)); //hourse
+            var _m = _date.offset - (60 * _h);
             var _hm = _padZeroLeft(_h,2) + options.timeSeparator + _padZeroLeft(Math.abs(_m),2);
             if(_h < 0) _hm =  '-' + _padZeroLeft(Math.abs(_h),2) + options.timeSeparator + _padZeroLeft(Math.abs(_m),2);
             return _hm;

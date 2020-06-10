@@ -352,11 +352,10 @@ const ianaTimeZones = [
 ];
 
 export class TimeZoneConverter {
-    public static convert(date: Date, timeZone: string): Date {
+    public static convert(date: Date, timeZone: string): DateTime {
         return DateTime
-            .fromJSDate(date, { zone: 'utc' })
-            .setZone(timeZone, { keepLocalTime: true })
-            .toJSDate();
+            .fromJSDate(date)
+            .setZone(timeZone);
     }
     
     public static isValidTimeZone(timeZone: string): boolean {
