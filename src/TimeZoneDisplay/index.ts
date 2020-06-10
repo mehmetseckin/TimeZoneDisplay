@@ -1,10 +1,10 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import "./Date.extensions";
-import { TimeZoneConverter } from "./utils/TimeZoneConverter";
+import "./DateTime.extensions";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Display } from "./components/Display";
 import { initializeIcons } from '@uifabric/icons';
+import { IDotNetFormatOptions } from "luxon";
 initializeIcons(); 
 
 export class TimeZoneDisplay implements ComponentFramework.StandardControl<IInputs, IOutputs> {
