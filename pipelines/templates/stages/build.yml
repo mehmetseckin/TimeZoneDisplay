@@ -15,6 +15,7 @@ stages:
     projectPath: '$(projectDir)\$(projectFileName)'
     artifactPath: '$(projectDir)\bin\${{ parameters.configuration }}'
     solutionXmlPath: '$(projectDir)\Other\Solution.xml'
+    controlManifestXmlPath: 'src\TimeZoneDisplay\ControlManifest.Input.xml'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
@@ -38,6 +39,15 @@ stages:
       env:
         BUILD_NUMBER: $(build.buildNumber)
         SOLUTION_XML_PATH: $(solutionXmlPath)
+    - powershell: |
+        echo "Updating control version: $($env:BUILD_NUMBER)"
+        $xml = [xml](gc "$($env:CONTROL_MANIFEST_XML_PATH)")
+        $xml.manifest.control.version = "$($env:BUILD_NUMBER)";
+        $xml.Save("$($env:CONTROL_MANIFEST_XML_PATH)")
+      displayName: 'Update control version'
+      env:
+        BUILD_NUMBER: $(build.buildNumber)
+        CONTROL_MANIFEST_XML_PATH: $(controlManifestXmlPath)
     - task: VSBuild@1
       displayName: "Build"
       inputs:
