@@ -3,6 +3,7 @@ parameters:
   configuration: 'Debug' # 'Debug' or 'Release'
   tag: false # true if the source needs to be tagged
   publish: false # true if artifacts need to be published
+  version: '0.0.0'
   dependsOn: []
 
 stages:
@@ -16,6 +17,7 @@ stages:
     artifactPath: '$(projectDir)\bin\${{ parameters.configuration }}'
     solutionXmlPath: '$(projectDir)\Other\Solution.xml'
     controlManifestXmlPath: 'src\TimeZoneDisplay\ControlManifest.Input.xml'
+    version: '${{ parameters.version }}'
 
   dependsOn: ${{ parameters.dependsOn }}
   jobs:
@@ -40,13 +42,13 @@ stages:
         BUILD_NUMBER: $(build.buildNumber)
         SOLUTION_XML_PATH: $(solutionXmlPath)
     - powershell: |
-        echo "Updating control version: $($env:BUILD_NUMBER)"
+        echo "Updating control version: $($env:CONTROL_VERSION)"
         $xml = [xml](gc "$($env:CONTROL_MANIFEST_XML_PATH)")
-        $xml.manifest.control.version = "$($env:BUILD_NUMBER)";
+        $xml.manifest.control.version = "$($env:CONTROL_VERSION)";
         $xml.Save("$($env:CONTROL_MANIFEST_XML_PATH)")
       displayName: 'Update control version'
       env:
-        BUILD_NUMBER: $(build.buildNumber)
+        CONTROL_VERSION: "$(version)-$(build.buildId)"
         CONTROL_MANIFEST_XML_PATH: $(controlManifestXmlPath)
     - task: VSBuild@1
       displayName: "Build"

@@ -13,3 +13,4 @@ stages:
 - template: templates/stages/build.yml
   parameters:
     name: 'ci_build'
+    version: $(version)
