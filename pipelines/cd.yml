@@ -1,5 +1,5 @@
 variables:
-  version: '1.2.1'
+  version: '1.3'
 
 name: $(version).$(build.buildId)
 
@@ -13,7 +13,6 @@ stages:
     configuration: 'Release'
     tag: true
     publish: true
-    version: '$(version)'
 - stage: 'Release'
   variables:
     artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
