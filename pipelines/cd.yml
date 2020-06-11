@@ -13,7 +13,7 @@ stages:
     configuration: 'Release'
     tag: true
     publish: true
-    version: $(version)
+    version: '$(version)'
 - stage: 'Release'
   variables:
     artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
