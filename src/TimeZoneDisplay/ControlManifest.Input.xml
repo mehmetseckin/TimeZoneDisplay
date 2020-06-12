@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="MehmetSeckin" constructor="TimeZoneDisplay" version="1.3.0" display-name-key="ControlDisplayName" description-key="ControlDescription" control-type="standard">
+  <control namespace="MehmetSeckin" constructor="TimeZoneDisplay" version="0.0.0" display-name-key="ControlDisplayName" description-key="ControlDescription" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="dateInput" display-name-key="DateInputDisplayName" description-key="DateInputDescription" of-type-group="DateOrDateTime" usage="bound" required="true" />
     <property name="defaultTimeZoneInput" display-name-key="DefaultTimeZoneInputDisplayName" description-key="DefaultTimeZoneInputDescription" of-type="SingleLine.Text" usage="bound" required="false" default-value="local" />
