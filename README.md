@@ -1,6 +1,7 @@
 # TimeZoneDisplay
 
 [![CI Build Status](https://dev.azure.com/mtseckin/TimeZoneDisplay/_apis/build/status/CI?branchName=master)](https://dev.azure.com/mtseckin/TimeZoneDisplay/_build/latest?definitionId=6&branchName=master)
+[![PCF Gallery Badge](https://img.shields.io/badge/PCF%20Gallery-published-brightgreen)](https://pcf.gallery/timezonedisplay/)
 
 A PCF control that displays a date or date and time field in a different timezone.
 
